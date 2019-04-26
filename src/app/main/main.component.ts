@@ -18,9 +18,22 @@ export class MainComponent implements OnInit {
 
 onSearchValueChanges(inputElement: HTMLInputElement) {
 
-  if (inputElement.value.length > 0) {
-  alert('Teraz funkcja wywołana keyup powinna sprawdzić, czy to, co zostało wpisane do inputa znajduje się w [planetsList] i jeśli tak, to kasuje stary widok i wyświetla znalezioną wartość (wszystko, co jej dotyczy, czyli singlePlanet), opcjonalnie można dodać warunek, że jeśli wpisywana wartość będzie miała value.length > 3, a jeśli nie ma, to wyświetla komunikat "Nic nie znaleziono", żeby wpisujący wiedział, że wyszukiwarka działa. Niestety nie wiem jak to zrobić, bo nie udało mi się znaleźć informacji, jak dostać się do tej listy, żeby ją przeszukać oraz nie wiem jak istniejącą listę zastąpić w DOM wynikiem wyszukiwania :(');
+  const arrayTextContent = [];
+  const inputValue = inputElement.value.toLowerCase().trim();
+  if (inputValue.length > 2) {
+    for (let i = 0; i < this._service.list.length; i++) {
+      if (this._service.list[i].name.toLowerCase().includes(inputValue)
+      || this._service.list[i].climate.toLowerCase().includes(inputValue)
+      || this._service.list[i].terrain.toLowerCase().includes(inputValue)
+      || this._service.list[i].diameter.toLowerCase().includes(inputValue)
+      || this._service.list[i].gravity.toLowerCase().includes(inputValue)) {
+        arrayTextContent.push(this._service.list[i]);
+      }
+    }
+    this.list = arrayTextContent;
+  } else {
+    this.list = this._service.list;
   }
 }
-
 }
+
